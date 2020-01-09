@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
+    font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
     height: 100%;
-    /* background: linear-gradient(-90deg, #3b8db1, #226494); */
 `;

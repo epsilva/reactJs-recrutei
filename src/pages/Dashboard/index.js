@@ -52,12 +52,12 @@ export default function Dashboard() {
     const ref = React.useRef();
 
     const columns = [
-        { id: 'id', label: 'ID', minWidth: 40 },
-        { id: 'tipo', label: 'Tipo', minWidth: 100 },
+        { id: 'id', label: 'ID', minWidth: '10%' },
+        { id: 'tipo', label: 'Tipo', minWidth: '70%' },
         {
             id: 'titulo',
             label: 'Título',
-            minWidth: 170,
+            minWidth: '20%',
         },
     ];
 
@@ -151,7 +151,6 @@ export default function Dashboard() {
                 content: data.content,
                 file_id: file,
             };
-            console.log(post);
             dispatch(insertRequest(post));
         }
 
@@ -181,41 +180,41 @@ export default function Dashboard() {
                 <div>
                     <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                         <div>
-                            <Autocomplete
-                                className="autoComplete"
-                                onChange={handleCombo}
-                                getOptionSelected={(option, value) =>
-                                    option === value
-                                }
-                                getOptionLabel={option => option}
-                                options={tipos}
-                                value={selectedTipo}
-                                renderInput={params => (
-                                    <TextField
-                                        {...params}
-                                        placeholder="Selecione o tipo do Post"
-                                        variant="outlined"
-                                        name="tipo"
-                                        inputRef={register({ required: true })}
-                                        InputProps={{
-                                            ...params.InputProps,
-                                            style: {
-                                                width: '260px',
-                                                marginRight: '10px',
-                                            },
-                                        }}
-                                    />
-                                )}
-                            />
-                            <TextField
-                                type="text"
-                                name="title"
-                                placeholder="Digite o título aqui"
-                                variant="outlined"
-                                fullWidth
-                                error={errors.nome}
-                                inputRef={register({ required: true })}
-                            />
+                            <div className="left">
+                                <Autocomplete
+                                    className="autoComplete"
+                                    onChange={handleCombo}
+                                    getOptionSelected={(option, value) =>
+                                        option === value
+                                    }
+                                    getOptionLabel={option => option}
+                                    options={tipos}
+                                    value={selectedTipo}
+                                    renderInput={params => (
+                                        <TextField
+                                            {...params}
+                                            placeholder="Selecione o tipo do Post"
+                                            variant="outlined"
+                                            fullWidth
+                                            name="tipo"
+                                            inputRef={register({
+                                                required: true,
+                                            })}
+                                        />
+                                    )}
+                                />
+                            </div>
+                            <div className="right">
+                                <TextField
+                                    type="text"
+                                    name="title"
+                                    placeholder="Digite o título aqui"
+                                    variant="outlined"
+                                    fullWidth
+                                    error={errors.nome}
+                                    inputRef={register({ required: true })}
+                                />
+                            </div>
                         </div>
                         <div>
                             <TextField
@@ -236,7 +235,7 @@ export default function Dashboard() {
                         </div>
                         <div>
                             {fileName ? (
-                                <div>
+                                <div className="file">
                                     <a
                                         href={fileUrl}
                                         rel="noopener noreferrer"
@@ -260,12 +259,6 @@ export default function Dashboard() {
                                         onChange={handleChange}
                                         ref={ref}
                                         variant="outlined"
-                                        InputProps={{
-                                            style: {
-                                                marginRight: '10px',
-                                                width: '350px',
-                                            },
-                                        }}
                                     />
                                 )}
                             <ContainerButton>

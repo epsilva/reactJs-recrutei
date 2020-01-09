@@ -16,10 +16,36 @@ export const FormContainer = styled.div`
 
     form {
         > div {
-            padding: 10px;
+            padding: 5px;
             display: flex;
             justify-content: space-between;
             flex-direction: row;
+
+            @media only screen and (max-width: 768px) {
+                flex-direction: column;
+            }
+
+            div.left {
+                width: 100%;
+                @media only screen and (min-width: 768px) {
+                    padding-right: 5px;
+                }
+            }
+
+            div.right {
+                width: 100%;
+                @media only screen and (min-width: 768px) {
+                    padding-left: 5px;
+                }
+
+                @media only screen and (max-width: 768px) {
+                    padding-top: 10px;
+                }
+            }
+
+            div.file {
+                display: flex;
+            }
 
             button.button-remove-file {
                 border: none;
@@ -85,6 +111,8 @@ export const TableContainer = styled.div`
     margin-top: 10px;
     width: 90%;
     height: 550px;
+    /* display: flex; */
+    /* justify-content: center; */
 
     button {
         border: none;

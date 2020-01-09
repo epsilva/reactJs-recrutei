@@ -1,17 +1,31 @@
 import React from 'react';
-import { Form, Input } from '@rocketseat/unform';
 import { useSelector, useDispatch } from 'react-redux';
+import TextField from '@material-ui/core/TextField';
+import useForm from 'react-hook-form';
 import { Container } from './styles';
 import { updateProfileRequest } from '~/store/modules/user/actions';
 import { signOut } from '~/store/modules/auth/actions';
-import AvatarInput from './AvatarInput';
 
 export default function Profile() {
+    const { register, handleSubmit, errors, reset, setValue } = useForm({});
     const profile = useSelector(state => state.user.profile);
     const dispatch = useDispatch();
 
-    function handleSubmit(data) {
-        dispatch(updateProfileRequest(data));
+    React.useEffect(() => {
+        setValue('name', profile.name);
+        setValue('email', profile.email);
+    }, [profile.email, profile.name, setValue]);
+
+    function onSubmit(data) {
+        if (data.oldPassword !== '' && data.password !== '') {
+            dispatch(updateProfileRequest(data));
+        } else {
+            const user = {
+                name: data.name,
+                email: data.email,
+            };
+            dispatch(updateProfileRequest(user));
+        }
     }
 
     function handleSignOut() {
@@ -20,33 +34,63 @@ export default function Profile() {
 
     return (
         <Container>
-            <Form initialData={profile} onSubmit={handleSubmit}>
-                <AvatarInput name="avatar_id" />
-                <Input name="name" placeholder="Nome completo" />
-                <Input
-                    name="email"
-                    type="email"
-                    placeholder="Seu endereço de e-mail"
-                />
+            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+                <div>
+                    <TextField
+                        type="text"
+                        name="name"
+                        placeholder="Nome completo"
+                        variant="outlined"
+                        fullWidth
+                        error={errors.name}
+                        inputRef={register({ required: true })}
+                    />
+                </div>
+                <div>
+                    <TextField
+                        type="email"
+                        name="email"
+                        placeholder="Seu endereço de e-mail"
+                        variant="outlined"
+                        fullWidth
+                        error={errors.email}
+                        inputRef={register({ required: true })}
+                    />
+                </div>
                 <hr />
-                <Input
-                    type="passwarod"
-                    name="oldPassword"
-                    placeholder="Sua senha atual"
-                />
-                <Input
-                    type="passwarod"
-                    name="password"
-                    placeholder="Nova senha"
-                />
-                <Input
-                    type="passwarod"
-                    name="confirmPassword"
-                    placeholder="Confirmação de senha"
-                />
+                <div>
+                    <TextField
+                        type="password"
+                        name="oldPassword"
+                        placeholder="Sua senha atual"
+                        variant="outlined"
+                        fullWidth
+                        inputRef={register({ required: false })}
+                    />
+                </div>
+                <div>
+                    <TextField
+                        type="password"
+                        name="password"
+                        placeholder="Nova senha"
+                        variant="outlined"
+                        fullWidth
+                        inputRef={register({ required: false })}
+                    />
+                </div>
+                <div>
+                    <TextField
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="Confirmar senha"
+                        variant="outlined"
+                        fullWidth
+                        inputRef={register({ required: false })}
+                    />
+                </div>
 
                 <button type="submit">Atualizar perfil</button>
-            </Form>
+            </form>
 
             <button type="button" onClick={handleSignOut}>
                 Sair
